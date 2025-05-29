@@ -182,7 +182,7 @@ class QueBellaAPITester:
 
 def main():
     # Get the backend URL from the frontend .env file
-    backend_url = "https://6d305d83-b091-4c21-a014-6164b09ac846.preview.emergentagent.com"
+    backend_url = "https://a98a75b8-b4a5-4aa7-bf3a-d704a14a3584.preview.emergentagent.com"
     
     # Setup
     tester = QueBellaAPITester(backend_url)
