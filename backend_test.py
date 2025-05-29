@@ -244,6 +244,11 @@ def main():
         print("❌ Create partner journal entry failed")
         return 1
     
+    # Create partner mood entry
+    if not tester.test_create_mood_entry("Grateful", today, token=tester.partner_token):
+        print("❌ Create partner mood entry failed")
+        return 1
+    
     # Test generating AI reflection
     success, reflection = tester.test_generate_reflection(today)
     if not success:
