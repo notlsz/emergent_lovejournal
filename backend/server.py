@@ -325,7 +325,7 @@ async def generate_reflection(date: str, user_id: str = Depends(get_current_user
     # Generate AI reflection
     try:
         response = openai_client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {
                     "role": "system",
