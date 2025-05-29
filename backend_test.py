@@ -90,12 +90,16 @@ class QueBellaAPITester:
 
     def test_register(self, email, password, full_name):
         """Test user registration with Supabase Auth"""
+        print(f"Attempting to register user with email: {email}")
+        data = {"email": email, "password": password, "full_name": full_name}
+        print(f"Registration data: {data}")
+        
         success, response = self.run_test(
             "User Registration",
             "POST",
             "api/register",
             200,
-            data={"email": email, "password": password, "full_name": full_name}
+            data=data
         )
         if success and 'access_token' in response and 'user' in response:
             if email == self.test_email:
