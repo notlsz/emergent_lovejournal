@@ -346,6 +346,16 @@ async def generate_reflection(date: str, user_id: str = Depends(get_current_user
         logger.error(f"OpenAI API error: {e}")
         # Fallback to a beautiful sample reflection when API is unavailable
         reflection_text = "Two hearts sharing their world through words, creating a tapestry of love that grows stronger with each passing day. In your shared stories, the beauty of your connection shines brightest."
+    
+    # Save reflection
+    reflection = SharedReflection(
+        date=date,
+        user_ids=[user_id, partner_id],
+        reflection=reflection_text
+    )
+    
+    await db.shared_reflections.insert_one(reflection.dict())
+    return reflection
 
 @api_router.get("/stats")
 async def get_stats(user_id: str = Depends(get_current_user)):
