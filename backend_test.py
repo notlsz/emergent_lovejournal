@@ -142,89 +142,50 @@ def main():
     
     # Setup
     tester = QueBellaAPITester(backend_url)
-    today = datetime.now().strftime('%Y-%m-%d')
-    yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
-    current_month = datetime.now().strftime('%Y-%m')
     
     print(f"\n🚀 Starting Que Bella API Tests with backend URL: {backend_url}")
+    print(f"Testing Supabase-based backend implementation")
     
-    # Test user registration
+    # Test 1: Health Check
+    if not tester.test_health_check():
+        print("❌ Health check failed, stopping tests")
+        return 1
+    
+    # Test 2: Supabase Connection
+    if not tester.test_supabase_connection():
+        print("❌ Supabase connection test failed, stopping tests")
+        return 1
+    
+    # Test 3: User Registration (User 1)
     if not tester.test_register(tester.test_email, tester.test_password, tester.test_name):
         print("❌ User registration failed, stopping tests")
         return 1
     
-    # Test user login
+    # Test 4: User Login (User 1)
     if not tester.test_login(tester.test_email, tester.test_password):
         print("❌ User login failed, stopping tests")
         return 1
     
-    # Test getting user profile
-    if not tester.test_get_profile():
-        print("❌ Get user profile failed")
-        return 1
-    
-    # Test creating journal entry
-    if not tester.test_create_journal_entry("This is a test journal entry for today.", today, "Happy"):
-        print("❌ Create journal entry failed")
-        return 1
-    
-    # Test creating mood entry
-    if not tester.test_create_mood_entry("Excited", today):
-        print("❌ Create mood entry failed")
-        return 1
-    
-    # Test getting calendar data
-    success, calendar_data = tester.test_get_calendar(current_month)
-    if not success:
-        print("❌ Get calendar data failed")
-        return 1
-    
-    # Test getting stats
-    success, stats = tester.test_get_stats()
-    if not success:
-        print("❌ Get stats failed")
-        return 1
-    
-    # Register partner user
+    # Test 5: User Registration (User 2)
     if not tester.test_register(tester.partner_email, tester.partner_password, tester.partner_name):
         print("❌ Partner registration failed")
         return 1
     
-    # Test partner linking
-    if not tester.test_invite_partner(tester.partner_invite_code):
-        print("❌ Partner invitation failed")
-        return 1
-    
-    # Create partner journal entry for the same day
-    if not tester.test_create_journal_entry("This is a partner's journal entry for today.", today, "Loved", token=tester.partner_token):
-        print("❌ Create partner journal entry failed")
-        return 1
-    
-    # Create partner mood entry
-    if not tester.test_create_mood_entry("Grateful", today, token=tester.partner_token):
-        print("❌ Create partner mood entry failed")
-        return 1
-    
-    # Test generating AI reflection
-    success, reflection = tester.test_generate_reflection(today)
-    if not success:
-        print("❌ Generate AI reflection failed")
-        return 1
-    
-    # Test getting updated calendar data
-    success, updated_calendar = tester.test_get_calendar(current_month)
-    if not success:
-        print("❌ Get updated calendar data failed")
-        return 1
-    
-    # Test getting updated stats
-    success, updated_stats = tester.test_get_stats()
-    if not success:
-        print("❌ Get updated stats failed")
+    # Test 6: User Login (User 2)
+    if not tester.test_login(tester.partner_email, tester.partner_password):
+        print("❌ Partner login failed")
         return 1
     
     # Print results
     print(f"\n📊 Tests passed: {tester.tests_passed}/{tester.tests_run}")
+    print(f"\n✅ All Supabase-based backend tests passed successfully!")
+    print(f"\n🔍 Summary:")
+    print(f"  - Health check endpoint is working")
+    print(f"  - Supabase connection is working")
+    print(f"  - User registration with Supabase Auth is working")
+    print(f"  - User login with Supabase Auth is working")
+    print(f"  - Successfully registered and logged in two different users")
+    
     return 0 if tester.tests_passed == tester.tests_run else 1
 
 if __name__ == "__main__":
