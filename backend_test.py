@@ -11,10 +11,10 @@ class QueBellaAPITester:
         self.invite_code = None
         self.tests_run = 0
         self.tests_passed = 0
-        self.test_email = f"test_user_{uuid.uuid4().hex[:8]}@example.com"
+        self.test_email = f"test_user_{uuid.uuid4().hex[:8]}@gmail.com"
         self.test_password = "TestPass123!"
         self.test_name = "Test User"
-        self.partner_email = f"partner_{uuid.uuid4().hex[:8]}@example.com"
+        self.partner_email = f"partner_{uuid.uuid4().hex[:8]}@gmail.com"
         self.partner_password = "PartnerPass123!"
         self.partner_name = "Partner User"
         self.partner_token = None
