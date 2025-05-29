@@ -234,9 +234,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Full app testing to verify current functionality"
-  stuck_tasks: []
-  test_all: true
+    - "User Registration with Supabase Auth"
+    - "User Login with Supabase Auth"
+  stuck_tasks:
+    - "User Registration with Supabase Auth"
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
