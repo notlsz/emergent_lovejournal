@@ -126,14 +126,15 @@ class QueBellaAPITester:
         )
         return success
 
-    def test_create_mood_entry(self, mood, date):
+    def test_create_mood_entry(self, mood, date, token=None):
         """Test creating a mood entry"""
         success, response = self.run_test(
             "Create Mood Entry",
             "POST",
             "api/mood",
             200,
-            data={"mood": mood, "date": date}
+            data={"mood": mood, "date": date},
+            token=token
         )
         return success
 
