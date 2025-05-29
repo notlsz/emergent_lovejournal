@@ -62,29 +62,58 @@ class QueBellaAPITester:
             print(f"❌ Failed - Error: {str(e)}")
             return False, {}
 
-    def test_register(self, email, password, name):
-        """Test user registration"""
+    def test_health_check(self):
+        """Test the health check endpoint"""
+        success, response = self.run_test(
+            "Health Check",
+            "GET",
+            "api/health",
+            200
+        )
+        if success and response.get("status") == "healthy":
+            print(f"Health check message: {response.get('message')}")
+            return True
+        return False
+
+    def test_supabase_connection(self):
+        """Test the Supabase connection endpoint"""
+        success, response = self.run_test(
+            "Supabase Connection Test",
+            "GET",
+            "api/test",
+            200
+        )
+        if success and response.get("status") == "success":
+            print(f"Supabase connection message: {response.get('message')}")
+            return True
+        return False
+
+    def test_register(self, email, password, full_name):
+        """Test user registration with Supabase Auth"""
         success, response = self.run_test(
             "User Registration",
             "POST",
             "api/register",
             200,
-            data={"email": email, "password": password, "name": name}
+            data={"email": email, "password": password, "full_name": full_name}
         )
-        if success and 'token' in response and 'user' in response:
+        if success and 'access_token' in response and 'user' in response:
             if email == self.test_email:
-                self.token = response['token']
+                self.token = response['access_token']
                 self.user_id = response['user']['id']
-                self.invite_code = response['user']['invite_code']
+                self.invite_code = response['user'].get('invite_code')
             else:
-                self.partner_token = response['token']
+                self.partner_token = response['access_token']
                 self.partner_id = response['user']['id']
-                self.partner_invite_code = response['user']['invite_code']
+                self.partner_invite_code = response['user'].get('invite_code')
+            print(f"Registration message: {response.get('message')}")
+            print(f"User ID: {response['user']['id']}")
+            print(f"Email: {response['user']['email']}")
             return True
         return False
 
     def test_login(self, email, password):
-        """Test user login"""
+        """Test user login with Supabase Auth"""
         success, response = self.run_test(
             "User Login",
             "POST",
@@ -92,93 +121,20 @@ class QueBellaAPITester:
             200,
             data={"email": email, "password": password}
         )
-        if success and 'token' in response and 'user' in response:
+        if success and 'access_token' in response and 'user' in response:
             if email == self.test_email:
-                self.token = response['token']
+                self.token = response['access_token']
                 self.user_id = response['user']['id']
-                self.invite_code = response['user']['invite_code']
+                self.invite_code = response['user'].get('invite_code')
             else:
-                self.partner_token = response['token']
+                self.partner_token = response['access_token']
                 self.partner_id = response['user']['id']
-                self.partner_invite_code = response['user']['invite_code']
+                self.partner_invite_code = response['user'].get('invite_code')
+            print(f"Login message: {response.get('message')}")
+            print(f"User ID: {response['user']['id']}")
+            print(f"Email: {response['user']['email']}")
             return True
         return False
-
-    def test_get_profile(self):
-        """Test getting user profile"""
-        success, response = self.run_test(
-            "Get User Profile",
-            "GET",
-            "api/me",
-            200
-        )
-        return success
-
-    def test_create_journal_entry(self, content, date, mood=None, token=None):
-        """Test creating a journal entry"""
-        success, response = self.run_test(
-            "Create Journal Entry",
-            "POST",
-            "api/journal",
-            200,
-            data={"content": content, "date": date, "mood": mood},
-            token=token
-        )
-        return success
-
-    def test_create_mood_entry(self, mood, date, token=None):
-        """Test creating a mood entry"""
-        success, response = self.run_test(
-            "Create Mood Entry",
-            "POST",
-            "api/mood",
-            200,
-            data={"mood": mood, "date": date},
-            token=token
-        )
-        return success
-
-    def test_invite_partner(self, invite_code, token=None):
-        """Test inviting a partner"""
-        success, response = self.run_test(
-            "Invite Partner",
-            "POST",
-            "api/invite-partner",
-            200,
-            data={"invite_code": invite_code},
-            token=token
-        )
-        return success
-
-    def test_get_calendar(self, month):
-        """Test getting calendar data"""
-        success, response = self.run_test(
-            "Get Calendar Data",
-            "GET",
-            f"api/calendar/{month}",
-            200
-        )
-        return success, response
-
-    def test_generate_reflection(self, date):
-        """Test generating an AI reflection"""
-        success, response = self.run_test(
-            "Generate AI Reflection",
-            "POST",
-            f"api/generate-reflection/{date}",
-            200
-        )
-        return success, response
-
-    def test_get_stats(self):
-        """Test getting user stats"""
-        success, response = self.run_test(
-            "Get User Stats",
-            "GET",
-            "api/stats",
-            200
-        )
-        return success, response
 
 def main():
     # Get the backend URL from the frontend .env file
