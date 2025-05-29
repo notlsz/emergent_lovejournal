@@ -11,7 +11,7 @@ import uuid
 from datetime import date, datetime, timedelta
 from typing import List, Optional
 import openai
-from supabase_client import get_supabase
+from supabase import create_client, Client
 from auth import get_current_user, get_current_user_profile
 from models import *
 import calendar
