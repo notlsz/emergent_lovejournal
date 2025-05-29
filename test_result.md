@@ -116,6 +116,9 @@ backend:
       - working: true
         agent: "main"
         comment: "JWT-based auth with registration/login endpoints already implemented and functional"
+      - working: true
+        agent: "testing"
+        comment: "Verified user registration and login functionality. JWT authentication is working correctly with proper token generation and validation."
 
   - task: "Journal Entry CRUD System"
     implemented: true
@@ -128,6 +131,9 @@ backend:
       - working: true
         agent: "main"
         comment: "Full journal entry system with date, content, mood fields implemented"
+      - working: true
+        agent: "testing"
+        comment: "Tested journal entry creation with date, content, and mood fields. The system correctly handles both new entries and updates to existing entries for the same date."
 
   - task: "Partner Invitation System"
     implemented: true
@@ -140,6 +146,9 @@ backend:
       - working: true
         agent: "main"
         comment: "Invite code system for linking partners is functional"
+      - working: true
+        agent: "testing"
+        comment: "Successfully tested partner invitation system. Users can generate invite codes and link with partners. The system correctly updates both users' partner_id fields."
 
   - task: "AI-Generated Shared Reflections"
     implemented: true
@@ -152,6 +161,9 @@ backend:
       - working: true
         agent: "main"
         comment: "OpenAI integration for generating poetic reflections from couple entries"
+      - working: true
+        agent: "testing"
+        comment: "Verified AI reflection generation functionality. The system correctly generates poetic reflections when both partners have entries for the same date using OpenAI integration."
 
   - task: "Calendar View API"
     implemented: true
@@ -164,6 +176,9 @@ backend:
       - working: true
         agent: "main"
         comment: "Monthly calendar data endpoint returning merged partner entries"
+      - working: true
+        agent: "testing"
+        comment: "Tested calendar API which correctly returns monthly data with merged partner entries, moods, and reflections organized by date."
 
   - task: "Mood Logging System"
     implemented: true
@@ -176,6 +191,9 @@ backend:
       - working: true
         agent: "main"
         comment: "Separate mood entries with CRUD operations"
+      - working: true
+        agent: "testing"
+        comment: "Verified mood logging functionality. Users can create and update mood entries for specific dates, which are correctly stored and retrieved."
 
   - task: "Statistics API"
     implemented: true
@@ -188,6 +206,9 @@ backend:
       - working: true
         agent: "main"
         comment: "Stats endpoint for total entries, shared days, reflections count"
+      - working: true
+        agent: "testing"
+        comment: "Tested statistics API which correctly calculates and returns total entries, shared days with partner, and reflection counts."
 
 frontend:
   - task: "Authentication UI"
@@ -265,7 +286,7 @@ frontend:
 metadata:
   created_by: "main_agent"
   version: "1.0"
-  test_sequence: 0
+  test_sequence: 1
   run_ui: false
 
 test_plan:
