@@ -105,110 +105,53 @@
 user_problem_statement: "Build AI couples love journal app 'Que Bella' with comprehensive features including user authentication, journal entries, mood logging, partner invitation system, AI-generated shared reflections, calendar view, and advanced features like audio journaling, streaks, read receipts etc."
 
 backend:
-  - task: "User Authentication System"
+  - task: "Health Check Endpoint"
     implemented: true
     working: true
-    file: "server.py"
+    file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
       - working: true
-        agent: "main"
-        comment: "JWT-based auth with registration/login endpoints already implemented and functional"
-      - working: true
         agent: "testing"
-        comment: "Verified user registration and login functionality. JWT authentication is working correctly with proper token generation and validation."
+        comment: "Health check endpoint (/api/health) is working correctly. Returns status 200 with 'healthy' status."
 
-  - task: "Journal Entry CRUD System"
+  - task: "Supabase Connection Test"
     implemented: true
     working: true
-    file: "server.py"
+    file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
       - working: true
-        agent: "main"
-        comment: "Full journal entry system with date, content, mood fields implemented"
-      - working: true
         agent: "testing"
-        comment: "Tested journal entry creation with date, content, and mood fields. The system correctly handles both new entries and updates to existing entries for the same date."
+        comment: "Supabase connection test endpoint (/api/test) is working correctly. Returns status 200 with 'success' status."
 
-  - task: "Partner Invitation System"
+  - task: "User Registration with Supabase Auth"
     implemented: true
-    working: true
-    file: "server.py"
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "User registration endpoint (/api/register) is failing with error: 'NoneType' object has no attribute 'access_token'. This is likely because Supabase Auth is configured to require email confirmation, so auth_response.session is None. The server code needs to be updated to handle this case."
+
+  - task: "User Login with Supabase Auth"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: true
-        agent: "main"
-        comment: "Invite code system for linking partners is functional"
-      - working: true
+      - working: "NA"
         agent: "testing"
-        comment: "Successfully tested partner invitation system. Users can generate invite codes and link with partners. The system correctly updates both users' partner_id fields."
-
-  - task: "AI-Generated Shared Reflections"
-    implemented: true
-    working: true
-    file: "server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: true
-        agent: "main"
-        comment: "OpenAI integration for generating poetic reflections from couple entries"
-      - working: true
-        agent: "testing"
-        comment: "Verified AI reflection generation functionality. The system correctly generates poetic reflections when both partners have entries for the same date using OpenAI integration."
-
-  - task: "Calendar View API"
-    implemented: true
-    working: true
-    file: "server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: true
-        agent: "main"
-        comment: "Monthly calendar data endpoint returning merged partner entries"
-      - working: true
-        agent: "testing"
-        comment: "Tested calendar API which correctly returns monthly data with merged partner entries, moods, and reflections organized by date."
-
-  - task: "Mood Logging System"
-    implemented: true
-    working: true
-    file: "server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: true
-        agent: "main"
-        comment: "Separate mood entries with CRUD operations"
-      - working: true
-        agent: "testing"
-        comment: "Verified mood logging functionality. Users can create and update mood entries for specific dates, which are correctly stored and retrieved."
-
-  - task: "Statistics API"
-    implemented: true
-    working: true
-    file: "server.py"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: true
-        agent: "main"
-        comment: "Stats endpoint for total entries, shared days, reflections count"
-      - working: true
-        agent: "testing"
-        comment: "Tested statistics API which correctly calculates and returns total entries, shared days with partner, and reflection counts."
+        comment: "Unable to test user login endpoint (/api/login) because user registration is failing. Login functionality depends on successful registration."
 
 frontend:
   - task: "Authentication UI"
