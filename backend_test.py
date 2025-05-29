@@ -114,14 +114,15 @@ class QueBellaAPITester:
         )
         return success
 
-    def test_create_journal_entry(self, content, date, mood=None):
+    def test_create_journal_entry(self, content, date, mood=None, token=None):
         """Test creating a journal entry"""
         success, response = self.run_test(
             "Create Journal Entry",
             "POST",
             "api/journal",
             200,
-            data={"content": content, "date": date, "mood": mood}
+            data={"content": content, "date": date, "mood": mood},
+            token=token
         )
         return success
 
